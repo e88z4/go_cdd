@@ -1,0 +1,579 @@
+---
+swagger: "2.0"
+info:
+  description: "Retrieves, updates, and deletes tar data"
+  version: "v1"
+  title: "TAR"
+  termsOfService: "dd"
+  contact: {}
+  license: {}
+host: "cddirector.io"
+basePath: "/cdd/tar/0000/v1"
+tags:
+- name: "tar"
+  description: "tar-tag"
+paths:
+  /applications/{applicationId}/application-versions/{applicationVersionId}/test-suites:
+    get:
+      tags:
+      - "test-suite"
+      summary: "Retrieve all test suites"
+      operationId: "getTestSuitesUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "applicationId"
+        in: "path"
+        description: "applicationId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationId"
+      - name: "applicationVersionId"
+        in: "path"
+        description: "applicationVersionId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationVersionId"
+      - name: "test_source"
+        in: "query"
+        description: "testSourceId"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "TestSource"
+        x-optionalDataType: "Int64"
+      - name: "sort_field"
+        in: "query"
+        description: "sortField"
+        required: false
+        type: "string"
+        enum:
+        - "name"
+        - "importDate"
+        - "endpointName"
+        - "testSourceName"
+        x-exportParamName: "SortField"
+        x-optionalDataType: "String"
+      - name: "sort_direction"
+        in: "query"
+        description: "sortDirection"
+        required: false
+        type: "string"
+        enum:
+        - "ASC"
+        - "DESC"
+        x-exportParamName: "SortDirection"
+        x-optionalDataType: "String"
+      - name: "filter"
+        in: "query"
+        description: "filter"
+        required: false
+        type: "string"
+        x-exportParamName: "Filter"
+        x-optionalDataType: "String"
+      - name: "endpoint_id"
+        in: "query"
+        description: "endpointId"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "EndpointId"
+        x-optionalDataType: "Int64"
+      - name: "tag"
+        in: "query"
+        description: "tagsCsv"
+        required: false
+        type: "string"
+        x-exportParamName: "Tag"
+        x-optionalDataType: "String"
+      - name: "page_number"
+        in: "query"
+        description: "pageNumber"
+        required: false
+        type: "integer"
+        format: "int32"
+        x-exportParamName: "PageNumber"
+        x-optionalDataType: "Int32"
+      - name: "page_size"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        format: "int32"
+        x-exportParamName: "PageSize"
+        x-optionalDataType: "Int32"
+      - name: "embed"
+        in: "query"
+        description: "embedFilter"
+        required: false
+        type: "string"
+        x-exportParamName: "Embed"
+        x-optionalDataType: "String"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PagedResultDto«TestSuiteDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    delete:
+      tags:
+      - "test-suite"
+      summary: "Delete test suites"
+      operationId: "deleteTestSuitesUsingDELETE"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "applicationId"
+        in: "path"
+        description: "applicationId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationId"
+      - name: "applicationVersionId"
+        in: "path"
+        description: "applicationVersionId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationVersionId"
+      - name: "test_suite"
+        in: "query"
+        description: "ids"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        x-exportParamName: "TestSuite"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/DeletedTestsDto"
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+    patch:
+      tags:
+      - "test-suite"
+      summary: "Add tags to test suites"
+      operationId: "addTagsAndIsFavoriteToTestSuitesUsingPATCH"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "applicationId"
+        in: "path"
+        description: "applicationId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationId"
+      - name: "applicationVersionId"
+        in: "path"
+        description: "applicationVersionId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationVersionId"
+      - name: "tag"
+        in: "query"
+        description: "tags"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        x-exportParamName: "Tag"
+      - name: "is_favorite"
+        in: "query"
+        description: "isFavorite"
+        required: false
+        type: "boolean"
+        x-exportParamName: "IsFavorite"
+        x-optionalDataType: "Bool"
+      - in: "body"
+        name: "testSuiteIds"
+        description: "testSuiteIds"
+        required: true
+        schema:
+          $ref: "#/definitions/StringsDtoList"
+        x-exportParamName: "TestSuiteIds"
+      responses:
+        200:
+          description: "OK"
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+  /applications/{applicationId}/application-versions/{applicationVersionId}/test-suites/{testSuiteHexId}:
+    patch:
+      tags:
+      - "test-suite"
+      summary: "Update Test Suite (Tags or IsFavorite)"
+      operationId: "updateTagsAndIsFavoriteForTestSuiteUsingPATCH"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "applicationId"
+        in: "path"
+        description: "applicationId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationId"
+      - name: "applicationVersionId"
+        in: "path"
+        description: "applicationVersionId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationVersionId"
+      - name: "testSuiteHexId"
+        in: "path"
+        description: "testSuiteId"
+        required: true
+        type: "string"
+        x-exportParamName: "TestSuiteHexId"
+      - in: "body"
+        name: "testSuiteDto"
+        description: "testSuiteDto"
+        required: true
+        schema:
+          $ref: "#/definitions/TestSuiteDto"
+        x-exportParamName: "TestSuiteDto"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/TestSuiteDto"
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+  /tags:
+    get:
+      tags:
+      - "tar-tag"
+      summary: "Retrieves filtered tags"
+      operationId: "getTagsUsingGET_1"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "filter"
+        in: "query"
+        description: "freeTextFilter"
+        required: false
+        type: "string"
+        x-exportParamName: "Filter"
+        x-optionalDataType: "String"
+      - name: "page_size"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        format: "int32"
+        x-exportParamName: "PageSize"
+        x-optionalDataType: "Int32"
+      - name: "page_number"
+        in: "query"
+        description: "pageNumber"
+        required: false
+        type: "integer"
+        format: "int32"
+        x-exportParamName: "PageNumber"
+        x-optionalDataType: "Int32"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PagedResultDto«string»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+definitions:
+  PagedResultDto«string»:
+    properties:
+      data:
+        type: "array"
+        items:
+          type: "string"
+      pageNumber:
+        type: "integer"
+        format: "int32"
+      pageSize:
+        type: "integer"
+        format: "int32"
+      totalResultsCount:
+        type: "integer"
+        format: "int64"
+    example:
+      totalResultsCount: 1
+      pageNumber: 0
+      data:
+      - "data"
+      - "data"
+      pageSize: 6
+  PagedResultDto«TestSuiteDto»:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/TestSuiteDto"
+      pageNumber:
+        type: "integer"
+        format: "int32"
+      pageSize:
+        type: "integer"
+        format: "int32"
+      totalResultsCount:
+        type: "integer"
+        format: "int64"
+    example:
+      totalResultsCount: 9
+      pageNumber: 2
+      data:
+      - applicationVersion:
+          name: "name"
+          id: 0
+        strategies:
+        - name: "name"
+        - name: "name"
+        externalId: "externalId"
+        creationDate: 1
+        basicPlugin:
+          name: "name"
+          description: "description"
+          iconUrl: "iconUrl"
+          id: 6
+          version: "version"
+        tags:
+        - "tags"
+        - "tags"
+        endpoint:
+          name: "name"
+          id: 0
+        endpointParameters:
+          key: "endpointParameters"
+        application:
+          name: "name"
+          id: 0
+        importDate: 5
+        name: "name"
+        id: "id"
+        testSource:
+          name: "name"
+          id: 0
+        testSuiteModificationDate: 5
+        testSourceParameters:
+          key: "testSourceParameters"
+        isRecentlyFailedTestSuite: true
+        isFavorite: true
+      - applicationVersion:
+          name: "name"
+          id: 0
+        strategies:
+        - name: "name"
+        - name: "name"
+        externalId: "externalId"
+        creationDate: 1
+        basicPlugin:
+          name: "name"
+          description: "description"
+          iconUrl: "iconUrl"
+          id: 6
+          version: "version"
+        tags:
+        - "tags"
+        - "tags"
+        endpoint:
+          name: "name"
+          id: 0
+        endpointParameters:
+          key: "endpointParameters"
+        application:
+          name: "name"
+          id: 0
+        importDate: 5
+        name: "name"
+        id: "id"
+        testSource:
+          name: "name"
+          id: 0
+        testSuiteModificationDate: 5
+        testSourceParameters:
+          key: "testSourceParameters"
+        isRecentlyFailedTestSuite: true
+        isFavorite: true
+      pageSize: 7
+  StringsDtoList:
+    properties:
+      data:
+        type: "array"
+        items:
+          type: "string"
+    example:
+      data:
+      - "data"
+      - "data"
+  BasicPluginDto:
+    properties:
+      description:
+        type: "string"
+      iconUrl:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      version:
+        type: "string"
+    example:
+      name: "name"
+      description: "description"
+      iconUrl: "iconUrl"
+      id: 6
+      version: "version"
+  TestSuiteDto:
+    properties:
+      application:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      applicationVersion:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      basicPlugin:
+        $ref: "#/definitions/BasicPluginDto"
+      creationDate:
+        type: "integer"
+        format: "int64"
+      endpoint:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      endpointParameters:
+        type: "object"
+        additionalProperties:
+          type: "string"
+      externalId:
+        type: "string"
+      id:
+        type: "string"
+      importDate:
+        type: "integer"
+        format: "int64"
+      isFavorite:
+        type: "boolean"
+      isRecentlyFailedTestSuite:
+        type: "boolean"
+      name:
+        type: "string"
+      strategies:
+        type: "array"
+        items:
+          $ref: "#/definitions/StrategyDto"
+      tags:
+        type: "array"
+        items:
+          type: "string"
+      testSource:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      testSourceParameters:
+        type: "object"
+        additionalProperties:
+          type: "string"
+      testSuiteModificationDate:
+        type: "integer"
+        format: "int64"
+    example:
+      applicationVersion:
+        name: "name"
+        id: 0
+      strategies:
+      - name: "name"
+      - name: "name"
+      externalId: "externalId"
+      creationDate: 1
+      basicPlugin:
+        name: "name"
+        description: "description"
+        iconUrl: "iconUrl"
+        id: 6
+        version: "version"
+      tags:
+      - "tags"
+      - "tags"
+      endpoint:
+        name: "name"
+        id: 0
+      endpointParameters:
+        key: "endpointParameters"
+      application:
+        name: "name"
+        id: 0
+      importDate: 5
+      name: "name"
+      id: "id"
+      testSource:
+        name: "name"
+        id: 0
+      testSuiteModificationDate: 5
+      testSourceParameters:
+        key: "testSourceParameters"
+      isRecentlyFailedTestSuite: true
+      isFavorite: true
+  Map«string,string»:
+    type: "object"
+    additionalProperties:
+      type: "string"
+  StrategyDto:
+    properties:
+      name:
+        type: "string"
+    example:
+      name: "name"
+  NamedIdentifiableDto:
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+    example:
+      name: "name"
+      id: 0
+  DeletedTestsDto:
+    properties:
+      numberOfDeletedTestSources:
+        type: "integer"
+        format: "int32"
+      numberOfDeletedTestSuites:
+        type: "integer"
+        format: "int32"
+    example:
+      numberOfDeletedTestSuites: 6
+      numberOfDeletedTestSources: 0

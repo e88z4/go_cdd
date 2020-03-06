@@ -1,0 +1,4341 @@
+---
+swagger: "2.0"
+info:
+  description: "Retrieves, updates, and deletes report and widget information"
+  version: "v1"
+  title: "REPORTING"
+  termsOfService: "dd"
+  contact: {}
+  license: {}
+host: "cddirector.io"
+basePath: "/cdd/reporting/0000/v1"
+tags:
+- name: "reporting"
+  description: "dashboard"
+- name: "reports"
+  description: "content report"
+paths:
+  /dashboard/pages:
+    get:
+      tags:
+      - "dashboard"
+      summary: "Retrieves all dashboard pages"
+      operationId: "getDashboardPagesUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "is_default"
+        in: "query"
+        description: "isDefault"
+        required: false
+        type: "boolean"
+        x-exportParamName: "IsDefault"
+        x-optionalDataType: "Bool"
+      - in: "body"
+        name: "auth"
+        description: "auth"
+        required: false
+        schema:
+          $ref: "#/definitions/Authentication"
+        x-exportParamName: "Auth"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListHolderDto«DashboardPageDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    post:
+      tags:
+      - "dashboard"
+      summary: "Saves a dashboard page"
+      operationId: "saveDashboardPageUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "dashboardDto"
+        description: "dashboardDto"
+        required: true
+        schema:
+          $ref: "#/definitions/DashboardPageDto"
+        x-exportParamName: "DashboardDto"
+      - in: "body"
+        name: "auth"
+        description: "auth"
+        required: false
+        schema:
+          $ref: "#/definitions/Authentication"
+        x-exportParamName: "Auth"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/DashboardPageDto"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    patch:
+      tags:
+      - "dashboard"
+      summary: "Sorts dashboard pages"
+      operationId: "sortDashboardPagesUsingPATCH"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "pageIds"
+        description: "pageIds"
+        required: true
+        schema:
+          type: "array"
+          items:
+            type: "integer"
+            format: "int64"
+        x-exportParamName: "PageIds"
+      responses:
+        200:
+          description: "OK"
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+  /dashboard/pages/{pageId}:
+    get:
+      tags:
+      - "dashboard"
+      summary: "Retrieves a dashboard page"
+      operationId: "getDashboardPageUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "pageId"
+        in: "path"
+        description: "dashboardPageId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "PageId"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/DashboardPageDto"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    delete:
+      tags:
+      - "dashboard"
+      summary: "Deletes a dashboard page"
+      operationId: "deleteDashboardPageUsingDELETE"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "pageId"
+        in: "path"
+        description: "dashboardPageId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "PageId"
+      responses:
+        200:
+          description: "OK"
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+  /dashboard/widgets:
+    get:
+      tags:
+      - "widget"
+      summary: "Retrieves all widgets"
+      operationId: "getWidgetsUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListHolderDto«WidgetDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    post:
+      tags:
+      - "widget"
+      summary: "Uploads a widget"
+      operationId: "handleUploadUsingPOST"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "file"
+        in: "formData"
+        description: "file"
+        required: true
+        type: "file"
+        x-exportParamName: "File"
+      - name: "tenantId"
+        in: "path"
+        description: "tenantId"
+        required: true
+        type: "string"
+        x-exportParamName: "TenantId"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/WidgetDto"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /dashboard/widgets/{widgetId}:
+    get:
+      tags:
+      - "widget"
+      summary: "Retrieves a widget"
+      operationId: "getWidgetUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "widgetId"
+        in: "path"
+        description: "widgetId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "WidgetId"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/WidgetDto"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    delete:
+      tags:
+      - "widget"
+      summary: "Deletes a widget"
+      operationId: "deleteWidgetUsingDELETE"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "widgetId"
+        in: "path"
+        description: "widgetId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "WidgetId"
+      responses:
+        200:
+          description: "OK"
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+  /report:
+    post:
+      tags:
+      - "universal"
+      summary: "Retrieves all content data"
+      operationId: "fetchContentDataUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "requestDto"
+        description: "requestDto"
+        required: true
+        schema:
+          $ref: "#/definitions/RequestDto"
+        x-exportParamName: "RequestDto"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/applications/{applicationId}/application-versions/{applicationVersionId}/application-testing-insights:
+    get:
+      tags:
+      - "test-suite-execution-report"
+      summary: "Get executed phases for release"
+      operationId: "getTestSuiteExecutionReportUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "applicationId"
+        in: "path"
+        description: "applicationId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationId"
+      - name: "applicationVersionId"
+        in: "path"
+        description: "applicationVersionId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationVersionId"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListHolderDto«PhaseTestExecutionReportDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  ? /reports/applications/{applicationId}/application-versions/{applicationVersionId}/application-testing-insights/phases/{phaseId}/plugins/{pluginId}
+  : get:
+      tags:
+      - "test-suite-execution-report"
+      summary: "Get application insight report per plugin and phase"
+      operationId: "getApplicationTestingInsightReportUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "applicationId"
+        in: "path"
+        description: "applicationId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationId"
+      - name: "applicationVersionId"
+        in: "path"
+        description: "applicationVersionId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationVersionId"
+      - name: "phaseId"
+        in: "path"
+        description: "phaseId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "PhaseId"
+      - name: "pluginId"
+        in: "path"
+        description: "pluginId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "PluginId"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PhasePluginTestExecutionDto"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/content-items:
+    get:
+      tags:
+      - "content-report"
+      summary: "Get Content Items by Filter"
+      operationId: "getContentItemsUsingGET_1"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "release_id"
+        in: "query"
+        description: "releaseId"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ReleaseId"
+        x-optionalDataType: "Int64"
+      - name: "application_id"
+        in: "query"
+        description: "applicationId"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationId"
+        x-optionalDataType: "Int64"
+      - name: "filter"
+        in: "query"
+        description: "freeTextFilter"
+        required: false
+        type: "string"
+        x-exportParamName: "Filter"
+        x-optionalDataType: "String"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListHolderDto«ContentItemDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/content-items-report:
+    get:
+      tags:
+      - "content-report"
+      summary: "Get content items for report"
+      operationId: "getContentItemsReportUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "content_item"
+        in: "query"
+        description: "contentItemsIds"
+        required: false
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+        collectionFormat: "multi"
+        x-exportParamName: "ContentItem"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListHolderDto«ContentItemReportDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/environments:
+    get:
+      tags:
+      - "environment-report"
+      summary: "Get environments report"
+      operationId: "getEnvironmentsReportUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "environmentIds"
+        required: false
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+        collectionFormat: "multi"
+        x-exportParamName: "Id"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListHolderDto«EnvironmentReportDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/environments/{environmentId}:
+    get:
+      tags:
+      - "environment-report"
+      summary: "Get environment report"
+      operationId: "getEnvironmentReportUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "environmentId"
+        in: "path"
+        description: "environmentId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "EnvironmentId"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/EnvironmentReportDto"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/executed-releases/{releaseId}:
+    get:
+      tags:
+      - "release-execution-report"
+      summary: "Get executed release information"
+      operationId: "getExecutedPhasesUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "releaseId"
+        in: "path"
+        description: "releaseId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ReleaseId"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ReleaseExecutionReportDto"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/releases-over-time-report:
+    get:
+      tags:
+      - "release-over-time-report"
+      summary: "Get release over time report"
+      operationId: "getReleasesOverTimeReportUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "start_date"
+        in: "query"
+        description: "startDate"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "StartDate"
+        x-optionalDataType: "Int64"
+      - name: "end_date"
+        in: "query"
+        description: "endDate"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "EndDate"
+        x-optionalDataType: "Int64"
+      - name: "status_reason"
+        in: "query"
+        description: "statusReasonFilter"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        x-exportParamName: "StatusReason"
+      - name: "page_size"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        format: "int32"
+        x-exportParamName: "PageSize"
+        x-optionalDataType: "Int32"
+      - name: "page_number"
+        in: "query"
+        description: "pageNumber"
+        required: false
+        type: "integer"
+        format: "int32"
+        x-exportParamName: "PageNumber"
+        x-optionalDataType: "Int32"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ReleasesOverTimeReportDto"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/releases/executed-phases:
+    get:
+      tags:
+      - "release-report"
+      summary: "Get tokens of executed phases"
+      operationId: "getExecutedPhasesTokensUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "release"
+        in: "query"
+        description: "releaseIds"
+        required: false
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+        collectionFormat: "multi"
+        x-exportParamName: "Release"
+      - name: "page_size"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        format: "int32"
+        x-exportParamName: "PageSize"
+        x-optionalDataType: "Int32"
+      - name: "page_number"
+        in: "query"
+        description: "pageNumber"
+        required: false
+        type: "integer"
+        format: "int32"
+        x-exportParamName: "PageNumber"
+        x-optionalDataType: "Int32"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListHolderDto«ExecutedPhaseReportDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/releases/executed-phases/executed-tasks:
+    get:
+      tags:
+      - "release-report"
+      summary: "Get executed tasks By filter"
+      operationId: "getExecutedTasksUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "release"
+        in: "query"
+        description: "releaseIds"
+        required: false
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+        collectionFormat: "multi"
+        x-exportParamName: "Release"
+      - name: "phase"
+        in: "query"
+        description: "phasesIds"
+        required: false
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+        collectionFormat: "multi"
+        x-exportParamName: "Phase"
+      - name: "plugin_name"
+        in: "query"
+        description: "pluginName"
+        required: false
+        type: "string"
+        x-exportParamName: "PluginName"
+        x-optionalDataType: "String"
+      - name: "plugin_vendor"
+        in: "query"
+        description: "pluginVendor"
+        required: false
+        type: "string"
+        x-exportParamName: "PluginVendor"
+        x-optionalDataType: "String"
+      - name: "plugin_version"
+        in: "query"
+        description: "pluginVersion"
+        required: false
+        type: "string"
+        x-exportParamName: "PluginVersion"
+        x-optionalDataType: "String"
+      - name: "task_template_name"
+        in: "query"
+        description: "taskTemplateName"
+        required: false
+        type: "string"
+        x-exportParamName: "TaskTemplateName"
+        x-optionalDataType: "String"
+      - name: "endpoint_name"
+        in: "query"
+        description: "endpointName"
+        required: false
+        type: "string"
+        x-exportParamName: "EndpointName"
+        x-optionalDataType: "String"
+      - name: "sort_field"
+        in: "query"
+        description: "sortField"
+        required: false
+        type: "string"
+        enum:
+        - "application_name"
+        - "environment_name"
+        - "task_start_date"
+        - "task_duration"
+        x-exportParamName: "SortField"
+        x-optionalDataType: "String"
+      - name: "sort_direction"
+        in: "query"
+        description: "sortDirection"
+        required: false
+        type: "string"
+        enum:
+        - "ASC"
+        - "DESC"
+        x-exportParamName: "SortDirection"
+        x-optionalDataType: "String"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListHolderDto«ExecutedTaskReportDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/releases/{releaseId}:
+    get:
+      tags:
+      - "release-report"
+      summary: "Get executed phases for release"
+      operationId: "getExecutedPhasesUsingGET_1"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "releaseId"
+        in: "path"
+        description: "releaseId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ReleaseId"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListHolderDto«PhaseExecutionsReportDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/releases/{releaseId}/applications/{applicationId}/application-versions/{applicationVersionId}/release-quality:
+    get:
+      tags:
+      - "release-quality-report"
+      summary: "Get release quality metrics for application version"
+      operationId: "getReleaseQualityMetricsPerApplicationVersionUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "releaseId"
+        in: "path"
+        description: "releaseId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ReleaseId"
+      - name: "applicationId"
+        in: "path"
+        description: "applicationId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationId"
+      - name: "applicationVersionId"
+        in: "path"
+        description: "applicationVersionId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ApplicationVersionId"
+      - name: "embed"
+        in: "query"
+        description: "embedField"
+        required: false
+        type: "string"
+        x-exportParamName: "Embed"
+        x-optionalDataType: "String"
+      - name: "is_changed_file_excluded"
+        in: "query"
+        description: "isChangedFileExcluded"
+        required: false
+        type: "boolean"
+        x-exportParamName: "IsChangedFileExcluded"
+        x-optionalDataType: "Bool"
+      - name: "changed_file_status"
+        in: "query"
+        description: "fileStatuses"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        x-exportParamName: "ChangedFileStatus"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ReleaseQualityReportApplicationVersionDto"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/releases/{releaseId}/executed-phases/{phaseId}:
+    get:
+      tags:
+      - "release-report"
+      summary: "Get executed tasks for executed phase"
+      operationId: "getExecutedPhaseUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "releaseId"
+        in: "path"
+        description: "releaseId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ReleaseId"
+      - name: "phaseId"
+        in: "path"
+        description: "executedPhaseId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "PhaseId"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListHolderDto«ExecutedTaskReportDto»"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/releases/{releaseId}/executed-phases/{phaseId}/executed-tasks/{taskId}:
+    get:
+      tags:
+      - "release-report"
+      summary: "Get executed parameters for executed task"
+      operationId: "getExecutedTaskParametersUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "releaseId"
+        in: "path"
+        description: "releaseId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ReleaseId"
+      - name: "phaseId"
+        in: "path"
+        description: "executedPhaseId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "PhaseId"
+      - name: "taskId"
+        in: "path"
+        description: "executedTaskId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "TaskId"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ExecutedTaskReportDto"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+  /reports/releases/{releaseId}/release-quality:
+    get:
+      tags:
+      - "release-quality-report"
+      summary: "Get release quality report"
+      operationId: "getReleaseQualityReportUsingGET"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "releaseId"
+        in: "path"
+        description: "releaseId"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "ReleaseId"
+      - name: "is_changed_file_excluded"
+        in: "query"
+        description: "isChangedFileExcluded"
+        required: false
+        type: "boolean"
+        x-exportParamName: "IsChangedFileExcluded"
+        x-optionalDataType: "Bool"
+      - name: "changed_file_status"
+        in: "query"
+        description: "fileStatuses"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        x-exportParamName: "ChangedFileStatus"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ReleaseQualityReportDto"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+definitions:
+  ListHolderDto«ContentItemDto»:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/ContentItemDto"
+    example:
+      data:
+      - contentSourceId: 5
+        release:
+          name: "name"
+          project:
+            name: "name"
+            id: 0
+          id: 3
+          version: "version"
+        parentContentItem:
+          id: 9
+        externalId: "externalId"
+        contentItemUrl: "contentItemUrl"
+        content: "content"
+        hierarchyPath: "hierarchyPath"
+        parentExternalId: "parentExternalId"
+        displayType: "displayType"
+        endpoint:
+          name: "name"
+          id: 0
+        plugin:
+          name: "name"
+          id: 0
+        lastImportDate: 7
+        commitFiles:
+        - files:
+          - filename: "filename"
+            isExcluded: true
+            testSuites:
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            changeId: "changeId"
+            commitId: "commitId"
+            id: "id"
+            isCovered: true
+          - filename: "filename"
+            isExcluded: true
+            testSuites:
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            changeId: "changeId"
+            commitId: "commitId"
+            id: "id"
+            isCovered: true
+          commitId: "commitId"
+        - files:
+          - filename: "filename"
+            isExcluded: true
+            testSuites:
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            changeId: "changeId"
+            commitId: "commitId"
+            id: "id"
+            isCovered: true
+          - filename: "filename"
+            isExcluded: true
+            testSuites:
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            changeId: "changeId"
+            commitId: "commitId"
+            id: "id"
+            isCovered: true
+          commitId: "commitId"
+        contentItemConflict: "PROGRESS_OF_UNPLANNED_WORK_ITEM"
+        id: 2
+        displayId: "displayId"
+        isConflictEnable: true
+        contentType: "contentType"
+        status: "status"
+      - contentSourceId: 5
+        release:
+          name: "name"
+          project:
+            name: "name"
+            id: 0
+          id: 3
+          version: "version"
+        parentContentItem:
+          id: 9
+        externalId: "externalId"
+        contentItemUrl: "contentItemUrl"
+        content: "content"
+        hierarchyPath: "hierarchyPath"
+        parentExternalId: "parentExternalId"
+        displayType: "displayType"
+        endpoint:
+          name: "name"
+          id: 0
+        plugin:
+          name: "name"
+          id: 0
+        lastImportDate: 7
+        commitFiles:
+        - files:
+          - filename: "filename"
+            isExcluded: true
+            testSuites:
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            changeId: "changeId"
+            commitId: "commitId"
+            id: "id"
+            isCovered: true
+          - filename: "filename"
+            isExcluded: true
+            testSuites:
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            changeId: "changeId"
+            commitId: "commitId"
+            id: "id"
+            isCovered: true
+          commitId: "commitId"
+        - files:
+          - filename: "filename"
+            isExcluded: true
+            testSuites:
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            changeId: "changeId"
+            commitId: "commitId"
+            id: "id"
+            isCovered: true
+          - filename: "filename"
+            isExcluded: true
+            testSuites:
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            - applicationVersion:
+                name: "name"
+                id: 0
+              strategies:
+              - name: "name"
+              - name: "name"
+              externalId: "externalId"
+              creationDate: 6
+              basicPlugin:
+                name: "name"
+                description: "description"
+                iconUrl: "iconUrl"
+                id: 0
+                version: "version"
+              tags:
+              - "tags"
+              - "tags"
+              endpoint:
+                name: "name"
+                id: 0
+              endpointParameters:
+                key: "endpointParameters"
+              application:
+                name: "name"
+                id: 0
+              importDate: 1
+              name: "name"
+              id: "id"
+              testSource:
+                name: "name"
+                id: 0
+              testSuiteModificationDate: 5
+              testSourceParameters:
+                key: "testSourceParameters"
+              isRecentlyFailedTestSuite: true
+              isFavorite: true
+            changeId: "changeId"
+            commitId: "commitId"
+            id: "id"
+            isCovered: true
+          commitId: "commitId"
+        contentItemConflict: "PROGRESS_OF_UNPLANNED_WORK_ITEM"
+        id: 2
+        displayId: "displayId"
+        isConflictEnable: true
+        contentType: "contentType"
+        status: "status"
+  ListHolderDto«ExecutedTaskReportDto»:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/ExecutedTaskReportDto"
+    example:
+      data:
+      - pluginVendor: "pluginVendor"
+        taskOwners:
+        - isSystem: true
+          groupName: "groupName"
+          userLastName: "userLastName"
+          description: "description"
+          userEmail: "userEmail"
+          userFirstName: "userFirstName"
+          isGroup: true
+          userName: "userName"
+        - isSystem: true
+          groupName: "groupName"
+          userLastName: "userLastName"
+          description: "description"
+          userEmail: "userEmail"
+          userFirstName: "userFirstName"
+          isGroup: true
+          userName: "userName"
+        endDate: 6
+        releaseName: "releaseName"
+        phaseId: 5
+        applicationVersionBuild:
+        - environmentNames:
+          - "environmentNames"
+          - "environmentNames"
+          applicationVersionBuildNumber: "applicationVersionBuildNumber"
+          applicationVersionName: "applicationVersionName"
+          applicationName: "applicationName"
+        - environmentNames:
+          - "environmentNames"
+          - "environmentNames"
+          applicationVersionBuildNumber: "applicationVersionBuildNumber"
+          applicationVersionName: "applicationVersionName"
+          applicationName: "applicationName"
+        duration: 0
+        executionId: "executionId"
+        pluginVersion: "pluginVersion"
+        pluginName: "pluginName"
+        releaseId: 2
+        taskTemplateName: "taskTemplateName"
+        name: "name"
+        executedParameterReport:
+        - displayName: "displayName"
+          parameterName: "parameterName"
+          value: "value"
+          direction: "direction"
+          parameterOrder: 1
+        - displayName: "displayName"
+          parameterName: "parameterName"
+          value: "value"
+          direction: "direction"
+          parameterOrder: 1
+        id: 5
+        phaseName: "phaseName"
+        startDate: 7
+        status: "DESIGN"
+      - pluginVendor: "pluginVendor"
+        taskOwners:
+        - isSystem: true
+          groupName: "groupName"
+          userLastName: "userLastName"
+          description: "description"
+          userEmail: "userEmail"
+          userFirstName: "userFirstName"
+          isGroup: true
+          userName: "userName"
+        - isSystem: true
+          groupName: "groupName"
+          userLastName: "userLastName"
+          description: "description"
+          userEmail: "userEmail"
+          userFirstName: "userFirstName"
+          isGroup: true
+          userName: "userName"
+        endDate: 6
+        releaseName: "releaseName"
+        phaseId: 5
+        applicationVersionBuild:
+        - environmentNames:
+          - "environmentNames"
+          - "environmentNames"
+          applicationVersionBuildNumber: "applicationVersionBuildNumber"
+          applicationVersionName: "applicationVersionName"
+          applicationName: "applicationName"
+        - environmentNames:
+          - "environmentNames"
+          - "environmentNames"
+          applicationVersionBuildNumber: "applicationVersionBuildNumber"
+          applicationVersionName: "applicationVersionName"
+          applicationName: "applicationName"
+        duration: 0
+        executionId: "executionId"
+        pluginVersion: "pluginVersion"
+        pluginName: "pluginName"
+        releaseId: 2
+        taskTemplateName: "taskTemplateName"
+        name: "name"
+        executedParameterReport:
+        - displayName: "displayName"
+          parameterName: "parameterName"
+          value: "value"
+          direction: "direction"
+          parameterOrder: 1
+        - displayName: "displayName"
+          parameterName: "parameterName"
+          value: "value"
+          direction: "direction"
+          parameterOrder: 1
+        id: 5
+        phaseName: "phaseName"
+        startDate: 7
+        status: "DESIGN"
+  NamedVersionedIdentifiableDto:
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      project:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      version:
+        type: "string"
+    example:
+      name: "name"
+      project:
+        name: "name"
+        id: 0
+      id: 3
+      version: "version"
+  DashboardPageDto:
+    properties:
+      content:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      layoutType:
+        type: "string"
+      name:
+        type: "string"
+    example:
+      name: "name"
+      layoutType: "layoutType"
+      id: 0
+      content: "content"
+  StrategyDto:
+    properties:
+      name:
+        type: "string"
+    example:
+      name: "name"
+  EnvironmentVersionDto:
+    properties:
+      application:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      applicationVersion:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      buildNumber:
+        type: "string"
+      commitId:
+        type: "string"
+      environment:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      externalStatus:
+        type: "string"
+      phase:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      promotionDate:
+        type: "integer"
+        format: "int64"
+      release:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      status:
+        type: "string"
+        enum:
+        - "FAILED"
+        - "DEPLOYED"
+        - "SCHEDULED"
+        - "RUNNING"
+      task:
+        $ref: "#/definitions/NamedIdentifiableDto"
+    example:
+      applicationVersion:
+        name: "name"
+        id: 0
+      phase:
+        name: "name"
+        id: 0
+      environment:
+        name: "name"
+        id: 0
+      task:
+        name: "name"
+        id: 0
+      application:
+        name: "name"
+        id: 0
+      release:
+        name: "name"
+        id: 0
+      promotionDate: 6
+      commitId: "commitId"
+      externalStatus: "externalStatus"
+      buildNumber: "buildNumber"
+      status: "FAILED"
+  ListHolderDto«EnvironmentReportDto»:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/EnvironmentReportDto"
+    example:
+      data:
+      - environment:
+          name: "name"
+          id: 0
+        records:
+        - applicationVersion:
+            name: "name"
+            id: 0
+          phase:
+            name: "name"
+            id: 0
+          environment:
+            name: "name"
+            id: 0
+          task:
+            name: "name"
+            id: 0
+          application:
+            name: "name"
+            id: 0
+          release:
+            name: "name"
+            id: 0
+          promotionDate: 6
+          commitId: "commitId"
+          externalStatus: "externalStatus"
+          buildNumber: "buildNumber"
+          status: "FAILED"
+        - applicationVersion:
+            name: "name"
+            id: 0
+          phase:
+            name: "name"
+            id: 0
+          environment:
+            name: "name"
+            id: 0
+          task:
+            name: "name"
+            id: 0
+          application:
+            name: "name"
+            id: 0
+          release:
+            name: "name"
+            id: 0
+          promotionDate: 6
+          commitId: "commitId"
+          externalStatus: "externalStatus"
+          buildNumber: "buildNumber"
+          status: "FAILED"
+      - environment:
+          name: "name"
+          id: 0
+        records:
+        - applicationVersion:
+            name: "name"
+            id: 0
+          phase:
+            name: "name"
+            id: 0
+          environment:
+            name: "name"
+            id: 0
+          task:
+            name: "name"
+            id: 0
+          application:
+            name: "name"
+            id: 0
+          release:
+            name: "name"
+            id: 0
+          promotionDate: 6
+          commitId: "commitId"
+          externalStatus: "externalStatus"
+          buildNumber: "buildNumber"
+          status: "FAILED"
+        - applicationVersion:
+            name: "name"
+            id: 0
+          phase:
+            name: "name"
+            id: 0
+          environment:
+            name: "name"
+            id: 0
+          task:
+            name: "name"
+            id: 0
+          application:
+            name: "name"
+            id: 0
+          release:
+            name: "name"
+            id: 0
+          promotionDate: 6
+          commitId: "commitId"
+          externalStatus: "externalStatus"
+          buildNumber: "buildNumber"
+          status: "FAILED"
+  ExecutedOwnerReportDto:
+    properties:
+      description:
+        type: "string"
+      groupName:
+        type: "string"
+      isGroup:
+        type: "boolean"
+      isSystem:
+        type: "boolean"
+      userEmail:
+        type: "string"
+      userFirstName:
+        type: "string"
+      userLastName:
+        type: "string"
+      userName:
+        type: "string"
+    example:
+      isSystem: true
+      groupName: "groupName"
+      userLastName: "userLastName"
+      description: "description"
+      userEmail: "userEmail"
+      userFirstName: "userFirstName"
+      isGroup: true
+      userName: "userName"
+  QueryDto:
+    properties:
+      category:
+        type: "string"
+      filters:
+        type: "array"
+        items:
+          $ref: "#/definitions/FilterDto"
+      name:
+        type: "string"
+      queryArguments:
+        type: "array"
+        items:
+          $ref: "#/definitions/ArgumentDto"
+      version:
+        type: "string"
+    example:
+      queryArguments:
+      - name: "name"
+        value: "{}"
+      - name: "name"
+        value: "{}"
+      name: "name"
+      filters:
+      - namedParameter: "namedParameter"
+        and: true
+        alias: "alias"
+        value: "{}"
+        operator: "operator"
+      - namedParameter: "namedParameter"
+        and: true
+        alias: "alias"
+        value: "{}"
+        operator: "operator"
+      category: "category"
+      version: "version"
+  ExecutedPhaseReportDto:
+    properties:
+      endDate:
+        type: "integer"
+        format: "int64"
+      executedManifestTokenValues:
+        type: "array"
+        items:
+          $ref: "#/definitions/ExecutedManifestTokenValueDto"
+      executionId:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      percentCompleted:
+        type: "number"
+        format: "float"
+      phaseId:
+        type: "integer"
+        format: "int64"
+      startDate:
+        type: "integer"
+        format: "int64"
+      status:
+        type: "string"
+        enum:
+        - "DESIGN"
+        - "RUNNING"
+        - "RUNNING_WITH_FAILURES"
+        - "STOPPED"
+        - "DONE"
+        - "DONE_WITH_FAILURES"
+        - "APPROVED"
+        - "NOT_APPROVED"
+        - "FAILED_TO_RUN"
+    example:
+      percentCompleted: 7.0614014
+      executionId: "executionId"
+      endDate: 1
+      phaseId: 9
+      id: 2
+      startDate: 3
+      executedManifestTokenValues:
+      - tokeId: 5
+        tokenName: "tokenName"
+        id: 5
+        tokenValue: "tokenValue"
+      - tokeId: 5
+        tokenName: "tokenName"
+        id: 5
+        tokenValue: "tokenValue"
+      status: "DESIGN"
+  CommitFilesDto:
+    properties:
+      commitId:
+        type: "string"
+      files:
+        type: "array"
+        items:
+          $ref: "#/definitions/CommitChangeFileDto"
+    example:
+      files:
+      - filename: "filename"
+        isExcluded: true
+        testSuites:
+        - applicationVersion:
+            name: "name"
+            id: 0
+          strategies:
+          - name: "name"
+          - name: "name"
+          externalId: "externalId"
+          creationDate: 6
+          basicPlugin:
+            name: "name"
+            description: "description"
+            iconUrl: "iconUrl"
+            id: 0
+            version: "version"
+          tags:
+          - "tags"
+          - "tags"
+          endpoint:
+            name: "name"
+            id: 0
+          endpointParameters:
+            key: "endpointParameters"
+          application:
+            name: "name"
+            id: 0
+          importDate: 1
+          name: "name"
+          id: "id"
+          testSource:
+            name: "name"
+            id: 0
+          testSuiteModificationDate: 5
+          testSourceParameters:
+            key: "testSourceParameters"
+          isRecentlyFailedTestSuite: true
+          isFavorite: true
+        - applicationVersion:
+            name: "name"
+            id: 0
+          strategies:
+          - name: "name"
+          - name: "name"
+          externalId: "externalId"
+          creationDate: 6
+          basicPlugin:
+            name: "name"
+            description: "description"
+            iconUrl: "iconUrl"
+            id: 0
+            version: "version"
+          tags:
+          - "tags"
+          - "tags"
+          endpoint:
+            name: "name"
+            id: 0
+          endpointParameters:
+            key: "endpointParameters"
+          application:
+            name: "name"
+            id: 0
+          importDate: 1
+          name: "name"
+          id: "id"
+          testSource:
+            name: "name"
+            id: 0
+          testSuiteModificationDate: 5
+          testSourceParameters:
+            key: "testSourceParameters"
+          isRecentlyFailedTestSuite: true
+          isFavorite: true
+        changeId: "changeId"
+        commitId: "commitId"
+        id: "id"
+        isCovered: true
+      - filename: "filename"
+        isExcluded: true
+        testSuites:
+        - applicationVersion:
+            name: "name"
+            id: 0
+          strategies:
+          - name: "name"
+          - name: "name"
+          externalId: "externalId"
+          creationDate: 6
+          basicPlugin:
+            name: "name"
+            description: "description"
+            iconUrl: "iconUrl"
+            id: 0
+            version: "version"
+          tags:
+          - "tags"
+          - "tags"
+          endpoint:
+            name: "name"
+            id: 0
+          endpointParameters:
+            key: "endpointParameters"
+          application:
+            name: "name"
+            id: 0
+          importDate: 1
+          name: "name"
+          id: "id"
+          testSource:
+            name: "name"
+            id: 0
+          testSuiteModificationDate: 5
+          testSourceParameters:
+            key: "testSourceParameters"
+          isRecentlyFailedTestSuite: true
+          isFavorite: true
+        - applicationVersion:
+            name: "name"
+            id: 0
+          strategies:
+          - name: "name"
+          - name: "name"
+          externalId: "externalId"
+          creationDate: 6
+          basicPlugin:
+            name: "name"
+            description: "description"
+            iconUrl: "iconUrl"
+            id: 0
+            version: "version"
+          tags:
+          - "tags"
+          - "tags"
+          endpoint:
+            name: "name"
+            id: 0
+          endpointParameters:
+            key: "endpointParameters"
+          application:
+            name: "name"
+            id: 0
+          importDate: 1
+          name: "name"
+          id: "id"
+          testSource:
+            name: "name"
+            id: 0
+          testSuiteModificationDate: 5
+          testSourceParameters:
+            key: "testSourceParameters"
+          isRecentlyFailedTestSuite: true
+          isFavorite: true
+        changeId: "changeId"
+        commitId: "commitId"
+        id: "id"
+        isCovered: true
+      commitId: "commitId"
+  FilterDto:
+    properties:
+      alias:
+        type: "string"
+      and:
+        type: "boolean"
+      namedParameter:
+        type: "string"
+      operator:
+        type: "string"
+      value:
+        type: "object"
+        properties: {}
+    example:
+      namedParameter: "namedParameter"
+      and: true
+      alias: "alias"
+      value: "{}"
+      operator: "operator"
+  CommitChangeFileDto:
+    properties:
+      changeId:
+        type: "string"
+      commitId:
+        type: "string"
+      filename:
+        type: "string"
+      id:
+        type: "string"
+      isCovered:
+        type: "boolean"
+      isExcluded:
+        type: "boolean"
+      testSuites:
+        type: "array"
+        items:
+          $ref: "#/definitions/TestSuiteDto"
+    example:
+      filename: "filename"
+      isExcluded: true
+      testSuites:
+      - applicationVersion:
+          name: "name"
+          id: 0
+        strategies:
+        - name: "name"
+        - name: "name"
+        externalId: "externalId"
+        creationDate: 6
+        basicPlugin:
+          name: "name"
+          description: "description"
+          iconUrl: "iconUrl"
+          id: 0
+          version: "version"
+        tags:
+        - "tags"
+        - "tags"
+        endpoint:
+          name: "name"
+          id: 0
+        endpointParameters:
+          key: "endpointParameters"
+        application:
+          name: "name"
+          id: 0
+        importDate: 1
+        name: "name"
+        id: "id"
+        testSource:
+          name: "name"
+          id: 0
+        testSuiteModificationDate: 5
+        testSourceParameters:
+          key: "testSourceParameters"
+        isRecentlyFailedTestSuite: true
+        isFavorite: true
+      - applicationVersion:
+          name: "name"
+          id: 0
+        strategies:
+        - name: "name"
+        - name: "name"
+        externalId: "externalId"
+        creationDate: 6
+        basicPlugin:
+          name: "name"
+          description: "description"
+          iconUrl: "iconUrl"
+          id: 0
+          version: "version"
+        tags:
+        - "tags"
+        - "tags"
+        endpoint:
+          name: "name"
+          id: 0
+        endpointParameters:
+          key: "endpointParameters"
+        application:
+          name: "name"
+          id: 0
+        importDate: 1
+        name: "name"
+        id: "id"
+        testSource:
+          name: "name"
+          id: 0
+        testSuiteModificationDate: 5
+        testSourceParameters:
+          key: "testSourceParameters"
+        isRecentlyFailedTestSuite: true
+        isFavorite: true
+      changeId: "changeId"
+      commitId: "commitId"
+      id: "id"
+      isCovered: true
+  WidgetDto:
+    properties:
+      author:
+        type: "string"
+      builtIn:
+        type: "boolean"
+      category:
+        type: "string"
+      dependencyVersion:
+        type: "string"
+      description:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      jsSourcePath:
+        type: "string"
+      moduleName:
+        type: "string"
+      name:
+        type: "string"
+      previewImagePath:
+        type: "string"
+      tag:
+        type: "string"
+      title:
+        type: "string"
+      updateTime:
+        type: "string"
+        format: "date-time"
+      widgetVersion:
+        type: "string"
+    example:
+      author: "author"
+      builtIn: true
+      previewImagePath: "previewImagePath"
+      moduleName: "moduleName"
+      description: "description"
+      widgetVersion: "widgetVersion"
+      updateTime: "2000-01-23T04:56:07.000+00:00"
+      title: "title"
+      jsSourcePath: "jsSourcePath"
+      name: "name"
+      id: 0
+      tag: "tag"
+      category: "category"
+      dependencyVersion: "dependencyVersion"
+  ExecutedTaskReportDto:
+    properties:
+      applicationVersionBuild:
+        type: "array"
+        items:
+          $ref: "#/definitions/ExecutedApplicationVersionBuildDto"
+      duration:
+        type: "integer"
+        format: "int64"
+      endDate:
+        type: "integer"
+        format: "int64"
+      executedParameterReport:
+        type: "array"
+        items:
+          $ref: "#/definitions/ExecutedParameterReportDto"
+      executionId:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      phaseId:
+        type: "integer"
+        format: "int64"
+      phaseName:
+        type: "string"
+      pluginName:
+        type: "string"
+      pluginVendor:
+        type: "string"
+      pluginVersion:
+        type: "string"
+      releaseId:
+        type: "integer"
+        format: "int64"
+      releaseName:
+        type: "string"
+      startDate:
+        type: "integer"
+        format: "int64"
+      status:
+        type: "string"
+        enum:
+        - "DESIGN"
+        - "READY"
+        - "PENDING"
+        - "RUNNING"
+        - "FAILED"
+        - "SKIPPED"
+        - "DONE"
+        - "DEFERRED"
+        - "STOPPED"
+        - "RUNNING_WITH_DETAILED_STATUS"
+      taskOwners:
+        type: "array"
+        items:
+          $ref: "#/definitions/ExecutedOwnerReportDto"
+      taskTemplateName:
+        type: "string"
+    example:
+      pluginVendor: "pluginVendor"
+      taskOwners:
+      - isSystem: true
+        groupName: "groupName"
+        userLastName: "userLastName"
+        description: "description"
+        userEmail: "userEmail"
+        userFirstName: "userFirstName"
+        isGroup: true
+        userName: "userName"
+      - isSystem: true
+        groupName: "groupName"
+        userLastName: "userLastName"
+        description: "description"
+        userEmail: "userEmail"
+        userFirstName: "userFirstName"
+        isGroup: true
+        userName: "userName"
+      endDate: 6
+      releaseName: "releaseName"
+      phaseId: 5
+      applicationVersionBuild:
+      - environmentNames:
+        - "environmentNames"
+        - "environmentNames"
+        applicationVersionBuildNumber: "applicationVersionBuildNumber"
+        applicationVersionName: "applicationVersionName"
+        applicationName: "applicationName"
+      - environmentNames:
+        - "environmentNames"
+        - "environmentNames"
+        applicationVersionBuildNumber: "applicationVersionBuildNumber"
+        applicationVersionName: "applicationVersionName"
+        applicationName: "applicationName"
+      duration: 0
+      executionId: "executionId"
+      pluginVersion: "pluginVersion"
+      pluginName: "pluginName"
+      releaseId: 2
+      taskTemplateName: "taskTemplateName"
+      name: "name"
+      executedParameterReport:
+      - displayName: "displayName"
+        parameterName: "parameterName"
+        value: "value"
+        direction: "direction"
+        parameterOrder: 1
+      - displayName: "displayName"
+        parameterName: "parameterName"
+        value: "value"
+        direction: "direction"
+        parameterOrder: 1
+      id: 5
+      phaseName: "phaseName"
+      startDate: 7
+      status: "DESIGN"
+  BasicPluginDto:
+    properties:
+      description:
+        type: "string"
+      iconUrl:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      version:
+        type: "string"
+    example:
+      name: "name"
+      description: "description"
+      iconUrl: "iconUrl"
+      id: 0
+      version: "version"
+  PluginExecutionCounterDto:
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      numberOfFailedTestSuiteExecutions:
+        type: "integer"
+        format: "int32"
+      numberOfSuccessfulTestSuiteExecutions:
+        type: "integer"
+        format: "int32"
+    example:
+      numberOfSuccessfulTestSuiteExecutions: 5
+      name: "name"
+      id: 1
+      numberOfFailedTestSuiteExecutions: 5
+  ReleaseQualityReportApplicationVersionDto:
+    properties:
+      applicationId:
+        type: "integer"
+        format: "int64"
+      applicationName:
+        type: "string"
+      applicationVersionBuilds:
+        type: "array"
+        items:
+          $ref: "#/definitions/ReleaseQualityReportApplicationVersionBuildDto"
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      nonIntelligentTestSuiteExecutionDuration:
+        type: "integer"
+        format: "int64"
+      numberOfChangedFiles:
+        type: "integer"
+        format: "int64"
+      numberOfRecentlyFailedTestSuites:
+        type: "integer"
+        format: "int64"
+      numberOfTestedChangedFiles:
+        type: "integer"
+        format: "int64"
+      recentlyFailedTestSuites:
+        type: "array"
+        items:
+          $ref: "#/definitions/StringIdentifiableDto"
+    example:
+      numberOfTestedChangedFiles: 7
+      applicationVersionBuilds:
+      - changeId: "changeId"
+        id: 6
+      - changeId: "changeId"
+        id: 6
+      numberOfChangedFiles: 5
+      numberOfRecentlyFailedTestSuites: 2
+      name: "name"
+      id: 1
+      applicationId: 0
+      nonIntelligentTestSuiteExecutionDuration: 5
+      recentlyFailedTestSuites:
+      - name: "name"
+        id: "id"
+      - name: "name"
+        id: "id"
+      applicationName: "applicationName"
+  PluginTestExecutionDto:
+    properties:
+      changeId:
+        type: "string"
+      date:
+        type: "integer"
+        format: "int64"
+      numberOfFailedTestSuites:
+        type: "integer"
+        format: "int32"
+      numberOfSuccessfulTestSuites:
+        type: "integer"
+        format: "int32"
+      testSuiteExecutionId:
+        type: "string"
+    example:
+      date: 1
+      numberOfSuccessfulTestSuites: 5
+      numberOfFailedTestSuites: 5
+      testSuiteExecutionId: "testSuiteExecutionId"
+      changeId: "changeId"
+  ListHolderDto«WidgetDto»:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/WidgetDto"
+    example:
+      data:
+      - author: "author"
+        builtIn: true
+        previewImagePath: "previewImagePath"
+        moduleName: "moduleName"
+        description: "description"
+        widgetVersion: "widgetVersion"
+        updateTime: "2000-01-23T04:56:07.000+00:00"
+        title: "title"
+        jsSourcePath: "jsSourcePath"
+        name: "name"
+        id: 0
+        tag: "tag"
+        category: "category"
+        dependencyVersion: "dependencyVersion"
+      - author: "author"
+        builtIn: true
+        previewImagePath: "previewImagePath"
+        moduleName: "moduleName"
+        description: "description"
+        widgetVersion: "widgetVersion"
+        updateTime: "2000-01-23T04:56:07.000+00:00"
+        title: "title"
+        jsSourcePath: "jsSourcePath"
+        name: "name"
+        id: 0
+        tag: "tag"
+        category: "category"
+        dependencyVersion: "dependencyVersion"
+  ListHolderDto«PhaseTestExecutionReportDto»:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/PhaseTestExecutionReportDto"
+    example:
+      data:
+      - firstTestExecutionStartDate: 0
+        pluginExecutionCounterDtos:
+        - numberOfSuccessfulTestSuiteExecutions: 5
+          name: "name"
+          id: 1
+          numberOfFailedTestSuiteExecutions: 5
+        - numberOfSuccessfulTestSuiteExecutions: 5
+          name: "name"
+          id: 1
+          numberOfFailedTestSuiteExecutions: 5
+        name: "name"
+        id: 6
+      - firstTestExecutionStartDate: 0
+        pluginExecutionCounterDtos:
+        - numberOfSuccessfulTestSuiteExecutions: 5
+          name: "name"
+          id: 1
+          numberOfFailedTestSuiteExecutions: 5
+        - numberOfSuccessfulTestSuiteExecutions: 5
+          name: "name"
+          id: 1
+          numberOfFailedTestSuiteExecutions: 5
+        name: "name"
+        id: 6
+  PhaseTestExecutionReportDto:
+    properties:
+      firstTestExecutionStartDate:
+        type: "integer"
+        format: "int64"
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      pluginExecutionCounterDtos:
+        type: "array"
+        items:
+          $ref: "#/definitions/PluginExecutionCounterDto"
+    example:
+      firstTestExecutionStartDate: 0
+      pluginExecutionCounterDtos:
+      - numberOfSuccessfulTestSuiteExecutions: 5
+        name: "name"
+        id: 1
+        numberOfFailedTestSuiteExecutions: 5
+      - numberOfSuccessfulTestSuiteExecutions: 5
+        name: "name"
+        id: 1
+        numberOfFailedTestSuiteExecutions: 5
+      name: "name"
+      id: 6
+  ArgumentDto:
+    properties:
+      name:
+        type: "string"
+      value:
+        type: "object"
+        properties: {}
+    example:
+      name: "name"
+      value: "{}"
+  PhaseExecutionsReportDto:
+    properties:
+      deleted:
+        type: "boolean"
+      executedPhases:
+        type: "array"
+        items:
+          $ref: "#/definitions/ExecutedPhaseReportDto"
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+    example:
+      executedPhases:
+      - percentCompleted: 7.0614014
+        executionId: "executionId"
+        endDate: 1
+        phaseId: 9
+        id: 2
+        startDate: 3
+        executedManifestTokenValues:
+        - tokeId: 5
+          tokenName: "tokenName"
+          id: 5
+          tokenValue: "tokenValue"
+        - tokeId: 5
+          tokenName: "tokenName"
+          id: 5
+          tokenValue: "tokenValue"
+        status: "DESIGN"
+      - percentCompleted: 7.0614014
+        executionId: "executionId"
+        endDate: 1
+        phaseId: 9
+        id: 2
+        startDate: 3
+        executedManifestTokenValues:
+        - tokeId: 5
+          tokenName: "tokenName"
+          id: 5
+          tokenValue: "tokenValue"
+        - tokeId: 5
+          tokenName: "tokenName"
+          id: 5
+          tokenValue: "tokenValue"
+        status: "DESIGN"
+      deleted: true
+      name: "name"
+      id: 2
+  PhasePluginTestExecutionDto:
+    properties:
+      application:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      applicationVersion:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      phase:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      pluginTestExecutions:
+        type: "array"
+        items:
+          $ref: "#/definitions/PluginTestExecutionDto"
+    example:
+      applicationVersion:
+        name: "name"
+        id: 0
+      phase:
+        name: "name"
+        id: 0
+      application:
+        name: "name"
+        id: 0
+      name: "name"
+      id: 6
+      pluginTestExecutions:
+      - date: 1
+        numberOfSuccessfulTestSuites: 5
+        numberOfFailedTestSuites: 5
+        testSuiteExecutionId: "testSuiteExecutionId"
+        changeId: "changeId"
+      - date: 1
+        numberOfSuccessfulTestSuites: 5
+        numberOfFailedTestSuites: 5
+        testSuiteExecutionId: "testSuiteExecutionId"
+        changeId: "changeId"
+  TestSuiteDto:
+    properties:
+      application:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      applicationVersion:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      basicPlugin:
+        $ref: "#/definitions/BasicPluginDto"
+      creationDate:
+        type: "integer"
+        format: "int64"
+      endpoint:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      endpointParameters:
+        type: "object"
+        additionalProperties:
+          type: "string"
+      externalId:
+        type: "string"
+      id:
+        type: "string"
+      importDate:
+        type: "integer"
+        format: "int64"
+      isFavorite:
+        type: "boolean"
+      isRecentlyFailedTestSuite:
+        type: "boolean"
+      name:
+        type: "string"
+      strategies:
+        type: "array"
+        items:
+          $ref: "#/definitions/StrategyDto"
+      tags:
+        type: "array"
+        items:
+          type: "string"
+      testSource:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      testSourceParameters:
+        type: "object"
+        additionalProperties:
+          type: "string"
+      testSuiteModificationDate:
+        type: "integer"
+        format: "int64"
+    example:
+      applicationVersion:
+        name: "name"
+        id: 0
+      strategies:
+      - name: "name"
+      - name: "name"
+      externalId: "externalId"
+      creationDate: 6
+      basicPlugin:
+        name: "name"
+        description: "description"
+        iconUrl: "iconUrl"
+        id: 0
+        version: "version"
+      tags:
+      - "tags"
+      - "tags"
+      endpoint:
+        name: "name"
+        id: 0
+      endpointParameters:
+        key: "endpointParameters"
+      application:
+        name: "name"
+        id: 0
+      importDate: 1
+      name: "name"
+      id: "id"
+      testSource:
+        name: "name"
+        id: 0
+      testSuiteModificationDate: 5
+      testSourceParameters:
+        key: "testSourceParameters"
+      isRecentlyFailedTestSuite: true
+      isFavorite: true
+  ContentItemDto:
+    properties:
+      commitFiles:
+        type: "array"
+        items:
+          $ref: "#/definitions/CommitFilesDto"
+      content:
+        type: "string"
+      contentItemConflict:
+        type: "string"
+        enum:
+        - "PROGRESS_OF_UNPLANNED_WORK_ITEM"
+        - "WORKING_ON_ACCEPTED_ITEM"
+        - "WORK_ITEM_IN_PROGRESS"
+        - "NO_INFORMATION"
+        - "ACCEPTED"
+      contentItemUrl:
+        type: "string"
+      contentSourceId:
+        type: "integer"
+        format: "int64"
+      contentType:
+        type: "string"
+      displayId:
+        type: "string"
+      displayType:
+        type: "string"
+      endpoint:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      externalId:
+        type: "string"
+      hierarchyPath:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      isConflictEnable:
+        type: "boolean"
+      lastImportDate:
+        type: "integer"
+        format: "int64"
+      parentContentItem:
+        $ref: "#/definitions/IdentifiableDto"
+      parentExternalId:
+        type: "string"
+      plugin:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      release:
+        $ref: "#/definitions/NamedVersionedIdentifiableDto"
+      status:
+        type: "string"
+    example:
+      contentSourceId: 5
+      release:
+        name: "name"
+        project:
+          name: "name"
+          id: 0
+        id: 3
+        version: "version"
+      parentContentItem:
+        id: 9
+      externalId: "externalId"
+      contentItemUrl: "contentItemUrl"
+      content: "content"
+      hierarchyPath: "hierarchyPath"
+      parentExternalId: "parentExternalId"
+      displayType: "displayType"
+      endpoint:
+        name: "name"
+        id: 0
+      plugin:
+        name: "name"
+        id: 0
+      lastImportDate: 7
+      commitFiles:
+      - files:
+        - filename: "filename"
+          isExcluded: true
+          testSuites:
+          - applicationVersion:
+              name: "name"
+              id: 0
+            strategies:
+            - name: "name"
+            - name: "name"
+            externalId: "externalId"
+            creationDate: 6
+            basicPlugin:
+              name: "name"
+              description: "description"
+              iconUrl: "iconUrl"
+              id: 0
+              version: "version"
+            tags:
+            - "tags"
+            - "tags"
+            endpoint:
+              name: "name"
+              id: 0
+            endpointParameters:
+              key: "endpointParameters"
+            application:
+              name: "name"
+              id: 0
+            importDate: 1
+            name: "name"
+            id: "id"
+            testSource:
+              name: "name"
+              id: 0
+            testSuiteModificationDate: 5
+            testSourceParameters:
+              key: "testSourceParameters"
+            isRecentlyFailedTestSuite: true
+            isFavorite: true
+          - applicationVersion:
+              name: "name"
+              id: 0
+            strategies:
+            - name: "name"
+            - name: "name"
+            externalId: "externalId"
+            creationDate: 6
+            basicPlugin:
+              name: "name"
+              description: "description"
+              iconUrl: "iconUrl"
+              id: 0
+              version: "version"
+            tags:
+            - "tags"
+            - "tags"
+            endpoint:
+              name: "name"
+              id: 0
+            endpointParameters:
+              key: "endpointParameters"
+            application:
+              name: "name"
+              id: 0
+            importDate: 1
+            name: "name"
+            id: "id"
+            testSource:
+              name: "name"
+              id: 0
+            testSuiteModificationDate: 5
+            testSourceParameters:
+              key: "testSourceParameters"
+            isRecentlyFailedTestSuite: true
+            isFavorite: true
+          changeId: "changeId"
+          commitId: "commitId"
+          id: "id"
+          isCovered: true
+        - filename: "filename"
+          isExcluded: true
+          testSuites:
+          - applicationVersion:
+              name: "name"
+              id: 0
+            strategies:
+            - name: "name"
+            - name: "name"
+            externalId: "externalId"
+            creationDate: 6
+            basicPlugin:
+              name: "name"
+              description: "description"
+              iconUrl: "iconUrl"
+              id: 0
+              version: "version"
+            tags:
+            - "tags"
+            - "tags"
+            endpoint:
+              name: "name"
+              id: 0
+            endpointParameters:
+              key: "endpointParameters"
+            application:
+              name: "name"
+              id: 0
+            importDate: 1
+            name: "name"
+            id: "id"
+            testSource:
+              name: "name"
+              id: 0
+            testSuiteModificationDate: 5
+            testSourceParameters:
+              key: "testSourceParameters"
+            isRecentlyFailedTestSuite: true
+            isFavorite: true
+          - applicationVersion:
+              name: "name"
+              id: 0
+            strategies:
+            - name: "name"
+            - name: "name"
+            externalId: "externalId"
+            creationDate: 6
+            basicPlugin:
+              name: "name"
+              description: "description"
+              iconUrl: "iconUrl"
+              id: 0
+              version: "version"
+            tags:
+            - "tags"
+            - "tags"
+            endpoint:
+              name: "name"
+              id: 0
+            endpointParameters:
+              key: "endpointParameters"
+            application:
+              name: "name"
+              id: 0
+            importDate: 1
+            name: "name"
+            id: "id"
+            testSource:
+              name: "name"
+              id: 0
+            testSuiteModificationDate: 5
+            testSourceParameters:
+              key: "testSourceParameters"
+            isRecentlyFailedTestSuite: true
+            isFavorite: true
+          changeId: "changeId"
+          commitId: "commitId"
+          id: "id"
+          isCovered: true
+        commitId: "commitId"
+      - files:
+        - filename: "filename"
+          isExcluded: true
+          testSuites:
+          - applicationVersion:
+              name: "name"
+              id: 0
+            strategies:
+            - name: "name"
+            - name: "name"
+            externalId: "externalId"
+            creationDate: 6
+            basicPlugin:
+              name: "name"
+              description: "description"
+              iconUrl: "iconUrl"
+              id: 0
+              version: "version"
+            tags:
+            - "tags"
+            - "tags"
+            endpoint:
+              name: "name"
+              id: 0
+            endpointParameters:
+              key: "endpointParameters"
+            application:
+              name: "name"
+              id: 0
+            importDate: 1
+            name: "name"
+            id: "id"
+            testSource:
+              name: "name"
+              id: 0
+            testSuiteModificationDate: 5
+            testSourceParameters:
+              key: "testSourceParameters"
+            isRecentlyFailedTestSuite: true
+            isFavorite: true
+          - applicationVersion:
+              name: "name"
+              id: 0
+            strategies:
+            - name: "name"
+            - name: "name"
+            externalId: "externalId"
+            creationDate: 6
+            basicPlugin:
+              name: "name"
+              description: "description"
+              iconUrl: "iconUrl"
+              id: 0
+              version: "version"
+            tags:
+            - "tags"
+            - "tags"
+            endpoint:
+              name: "name"
+              id: 0
+            endpointParameters:
+              key: "endpointParameters"
+            application:
+              name: "name"
+              id: 0
+            importDate: 1
+            name: "name"
+            id: "id"
+            testSource:
+              name: "name"
+              id: 0
+            testSuiteModificationDate: 5
+            testSourceParameters:
+              key: "testSourceParameters"
+            isRecentlyFailedTestSuite: true
+            isFavorite: true
+          changeId: "changeId"
+          commitId: "commitId"
+          id: "id"
+          isCovered: true
+        - filename: "filename"
+          isExcluded: true
+          testSuites:
+          - applicationVersion:
+              name: "name"
+              id: 0
+            strategies:
+            - name: "name"
+            - name: "name"
+            externalId: "externalId"
+            creationDate: 6
+            basicPlugin:
+              name: "name"
+              description: "description"
+              iconUrl: "iconUrl"
+              id: 0
+              version: "version"
+            tags:
+            - "tags"
+            - "tags"
+            endpoint:
+              name: "name"
+              id: 0
+            endpointParameters:
+              key: "endpointParameters"
+            application:
+              name: "name"
+              id: 0
+            importDate: 1
+            name: "name"
+            id: "id"
+            testSource:
+              name: "name"
+              id: 0
+            testSuiteModificationDate: 5
+            testSourceParameters:
+              key: "testSourceParameters"
+            isRecentlyFailedTestSuite: true
+            isFavorite: true
+          - applicationVersion:
+              name: "name"
+              id: 0
+            strategies:
+            - name: "name"
+            - name: "name"
+            externalId: "externalId"
+            creationDate: 6
+            basicPlugin:
+              name: "name"
+              description: "description"
+              iconUrl: "iconUrl"
+              id: 0
+              version: "version"
+            tags:
+            - "tags"
+            - "tags"
+            endpoint:
+              name: "name"
+              id: 0
+            endpointParameters:
+              key: "endpointParameters"
+            application:
+              name: "name"
+              id: 0
+            importDate: 1
+            name: "name"
+            id: "id"
+            testSource:
+              name: "name"
+              id: 0
+            testSuiteModificationDate: 5
+            testSourceParameters:
+              key: "testSourceParameters"
+            isRecentlyFailedTestSuite: true
+            isFavorite: true
+          changeId: "changeId"
+          commitId: "commitId"
+          id: "id"
+          isCovered: true
+        commitId: "commitId"
+      contentItemConflict: "PROGRESS_OF_UNPLANNED_WORK_ITEM"
+      id: 2
+      displayId: "displayId"
+      isConflictEnable: true
+      contentType: "contentType"
+      status: "status"
+  ExecutedParameterReportDto:
+    properties:
+      direction:
+        type: "string"
+      displayName:
+        type: "string"
+      parameterName:
+        type: "string"
+      parameterOrder:
+        type: "integer"
+        format: "int32"
+      value:
+        type: "string"
+    example:
+      displayName: "displayName"
+      parameterName: "parameterName"
+      value: "value"
+      direction: "direction"
+      parameterOrder: 1
+  ReleaseExecutionReportDto:
+    properties:
+      creationDate:
+        type: "integer"
+        format: "int64"
+      description:
+        type: "string"
+      endDate:
+        type: "integer"
+        format: "int64"
+      executedPhases:
+        type: "array"
+        items:
+          $ref: "#/definitions/PhaseExecutionsReportDto"
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      productionPhaseId:
+        type: "integer"
+        format: "int64"
+      startDate:
+        type: "integer"
+        format: "int64"
+      status:
+        type: "string"
+        enum:
+        - "DESIGN"
+        - "RUNNING"
+        - "RUNNING_WITH_FAILURES"
+        - "DONE"
+      statusDescription:
+        type: "string"
+      statusReason:
+        type: "string"
+        enum:
+        - "SUCCESS"
+        - "FAILURE_DEPLOYMENT"
+        - "FAILURE_PERFORMANCE"
+        - "FAILURE_ENVIRONMENT"
+        - "FAILURE_FUNCTIONAL"
+        - "FAILURE_GENERAL"
+        - "NOT_IN_USE"
+      statusReasonDescription:
+        type: "string"
+      version:
+        type: "string"
+    example:
+      endDate: 6
+      description: "description"
+      creationDate: 0
+      version: "version"
+      executedPhases:
+      - executedPhases:
+        - percentCompleted: 7.0614014
+          executionId: "executionId"
+          endDate: 1
+          phaseId: 9
+          id: 2
+          startDate: 3
+          executedManifestTokenValues:
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          status: "DESIGN"
+        - percentCompleted: 7.0614014
+          executionId: "executionId"
+          endDate: 1
+          phaseId: 9
+          id: 2
+          startDate: 3
+          executedManifestTokenValues:
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          status: "DESIGN"
+        deleted: true
+        name: "name"
+        id: 2
+      - executedPhases:
+        - percentCompleted: 7.0614014
+          executionId: "executionId"
+          endDate: 1
+          phaseId: 9
+          id: 2
+          startDate: 3
+          executedManifestTokenValues:
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          status: "DESIGN"
+        - percentCompleted: 7.0614014
+          executionId: "executionId"
+          endDate: 1
+          phaseId: 9
+          id: 2
+          startDate: 3
+          executedManifestTokenValues:
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          status: "DESIGN"
+        deleted: true
+        name: "name"
+        id: 2
+      statusDescription: "statusDescription"
+      statusReason: "SUCCESS"
+      statusReasonDescription: "statusReasonDescription"
+      name: "name"
+      productionPhaseId: 7
+      id: 4
+      startDate: 1
+      status: "DESIGN"
+  EnvironmentReportDto:
+    properties:
+      environment:
+        $ref: "#/definitions/NamedIdentifiableDto"
+      records:
+        type: "array"
+        items:
+          $ref: "#/definitions/EnvironmentVersionDto"
+    example:
+      environment:
+        name: "name"
+        id: 0
+      records:
+      - applicationVersion:
+          name: "name"
+          id: 0
+        phase:
+          name: "name"
+          id: 0
+        environment:
+          name: "name"
+          id: 0
+        task:
+          name: "name"
+          id: 0
+        application:
+          name: "name"
+          id: 0
+        release:
+          name: "name"
+          id: 0
+        promotionDate: 6
+        commitId: "commitId"
+        externalStatus: "externalStatus"
+        buildNumber: "buildNumber"
+        status: "FAILED"
+      - applicationVersion:
+          name: "name"
+          id: 0
+        phase:
+          name: "name"
+          id: 0
+        environment:
+          name: "name"
+          id: 0
+        task:
+          name: "name"
+          id: 0
+        application:
+          name: "name"
+          id: 0
+        release:
+          name: "name"
+          id: 0
+        promotionDate: 6
+        commitId: "commitId"
+        externalStatus: "externalStatus"
+        buildNumber: "buildNumber"
+        status: "FAILED"
+  ContentItemReportDto:
+    properties:
+      applicationName:
+        type: "string"
+      contentItemDisplayId:
+        type: "string"
+      contentItemId:
+        type: "integer"
+        format: "int64"
+      contentItemName:
+        type: "string"
+      contentItemType:
+        type: "string"
+      environmentVersions:
+        type: "array"
+        items:
+          $ref: "#/definitions/EnvironmentVersionDto"
+      release:
+        $ref: "#/definitions/NamedIdentifiableDto"
+    example:
+      contentItemDisplayId: "contentItemDisplayId"
+      contentItemId: 0
+      environmentVersions:
+      - applicationVersion:
+          name: "name"
+          id: 0
+        phase:
+          name: "name"
+          id: 0
+        environment:
+          name: "name"
+          id: 0
+        task:
+          name: "name"
+          id: 0
+        application:
+          name: "name"
+          id: 0
+        release:
+          name: "name"
+          id: 0
+        promotionDate: 6
+        commitId: "commitId"
+        externalStatus: "externalStatus"
+        buildNumber: "buildNumber"
+        status: "FAILED"
+      - applicationVersion:
+          name: "name"
+          id: 0
+        phase:
+          name: "name"
+          id: 0
+        environment:
+          name: "name"
+          id: 0
+        task:
+          name: "name"
+          id: 0
+        application:
+          name: "name"
+          id: 0
+        release:
+          name: "name"
+          id: 0
+        promotionDate: 6
+        commitId: "commitId"
+        externalStatus: "externalStatus"
+        buildNumber: "buildNumber"
+        status: "FAILED"
+      contentItemType: "contentItemType"
+      contentItemName: "contentItemName"
+      release:
+        name: "name"
+        id: 0
+      applicationName: "applicationName"
+  ReleaseQualityReportDto:
+    properties:
+      applicationVersions:
+        type: "array"
+        items:
+          $ref: "#/definitions/ReleaseQualityReportApplicationVersionDto"
+      releaseId:
+        type: "integer"
+        format: "int64"
+      releaseName:
+        type: "string"
+      releaseVersion:
+        type: "string"
+    example:
+      applicationVersions:
+      - numberOfTestedChangedFiles: 7
+        applicationVersionBuilds:
+        - changeId: "changeId"
+          id: 6
+        - changeId: "changeId"
+          id: 6
+        numberOfChangedFiles: 5
+        numberOfRecentlyFailedTestSuites: 2
+        name: "name"
+        id: 1
+        applicationId: 0
+        nonIntelligentTestSuiteExecutionDuration: 5
+        recentlyFailedTestSuites:
+        - name: "name"
+          id: "id"
+        - name: "name"
+          id: "id"
+        applicationName: "applicationName"
+      - numberOfTestedChangedFiles: 7
+        applicationVersionBuilds:
+        - changeId: "changeId"
+          id: 6
+        - changeId: "changeId"
+          id: 6
+        numberOfChangedFiles: 5
+        numberOfRecentlyFailedTestSuites: 2
+        name: "name"
+        id: 1
+        applicationId: 0
+        nonIntelligentTestSuiteExecutionDuration: 5
+        recentlyFailedTestSuites:
+        - name: "name"
+          id: "id"
+        - name: "name"
+          id: "id"
+        applicationName: "applicationName"
+      releaseId: 0
+      releaseName: "releaseName"
+      releaseVersion: "releaseVersion"
+  ExecutedApplicationVersionBuildDto:
+    properties:
+      applicationName:
+        type: "string"
+      applicationVersionBuildNumber:
+        type: "string"
+      applicationVersionName:
+        type: "string"
+      environmentNames:
+        type: "array"
+        items:
+          type: "string"
+    example:
+      environmentNames:
+      - "environmentNames"
+      - "environmentNames"
+      applicationVersionBuildNumber: "applicationVersionBuildNumber"
+      applicationVersionName: "applicationVersionName"
+      applicationName: "applicationName"
+  StatusReasonCountersDto:
+    properties:
+      failureDeployment:
+        type: "integer"
+        format: "int64"
+      failureEnvironment:
+        type: "integer"
+        format: "int64"
+      failureFunctional:
+        type: "integer"
+        format: "int64"
+      failureGeneral:
+        type: "integer"
+        format: "int64"
+      failurePerformance:
+        type: "integer"
+        format: "int64"
+      notInUse:
+        type: "integer"
+        format: "int64"
+      success:
+        type: "integer"
+        format: "int64"
+    example:
+      failureEnvironment: 5
+      failureGeneral: 2
+      notInUse: 9
+      failureFunctional: 5
+      success: 3
+      failureDeployment: 1
+      failurePerformance: 7
+  Map«string,string»:
+    type: "object"
+    additionalProperties:
+      type: "string"
+  ListHolderDto«ExecutedPhaseReportDto»:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/ExecutedPhaseReportDto"
+    example:
+      data:
+      - percentCompleted: 7.0614014
+        executionId: "executionId"
+        endDate: 1
+        phaseId: 9
+        id: 2
+        startDate: 3
+        executedManifestTokenValues:
+        - tokeId: 5
+          tokenName: "tokenName"
+          id: 5
+          tokenValue: "tokenValue"
+        - tokeId: 5
+          tokenName: "tokenName"
+          id: 5
+          tokenValue: "tokenValue"
+        status: "DESIGN"
+      - percentCompleted: 7.0614014
+        executionId: "executionId"
+        endDate: 1
+        phaseId: 9
+        id: 2
+        startDate: 3
+        executedManifestTokenValues:
+        - tokeId: 5
+          tokenName: "tokenName"
+          id: 5
+          tokenValue: "tokenValue"
+        - tokeId: 5
+          tokenName: "tokenName"
+          id: 5
+          tokenValue: "tokenValue"
+        status: "DESIGN"
+  RequestDto:
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      queries:
+        type: "array"
+        items:
+          $ref: "#/definitions/QueryDto"
+    example:
+      name: "name"
+      id: 0
+      queries:
+      - queryArguments:
+        - name: "name"
+          value: "{}"
+        - name: "name"
+          value: "{}"
+        name: "name"
+        filters:
+        - namedParameter: "namedParameter"
+          and: true
+          alias: "alias"
+          value: "{}"
+          operator: "operator"
+        - namedParameter: "namedParameter"
+          and: true
+          alias: "alias"
+          value: "{}"
+          operator: "operator"
+        category: "category"
+        version: "version"
+      - queryArguments:
+        - name: "name"
+          value: "{}"
+        - name: "name"
+          value: "{}"
+        name: "name"
+        filters:
+        - namedParameter: "namedParameter"
+          and: true
+          alias: "alias"
+          value: "{}"
+          operator: "operator"
+        - namedParameter: "namedParameter"
+          and: true
+          alias: "alias"
+          value: "{}"
+          operator: "operator"
+        category: "category"
+        version: "version"
+  ReleaseQualityReportApplicationVersionBuildDto:
+    properties:
+      changeId:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+    example:
+      changeId: "changeId"
+      id: 6
+  StringIdentifiableDto:
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+    example:
+      name: "name"
+      id: "id"
+  IdentifiableDto:
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+    example:
+      id: 9
+  ExecutedManifestTokenValueDto:
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      tokeId:
+        type: "integer"
+        format: "int64"
+      tokenName:
+        type: "string"
+      tokenValue:
+        type: "string"
+    example:
+      tokeId: 5
+      tokenName: "tokenName"
+      id: 5
+      tokenValue: "tokenValue"
+  ReleasesOverTimeReportDto:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/ReleaseExecutionReportDto"
+      pageNumber:
+        type: "integer"
+        format: "int32"
+      pageSize:
+        type: "integer"
+        format: "int32"
+      statusReasonCounters:
+        $ref: "#/definitions/StatusReasonCountersDto"
+      totalResultsCount:
+        type: "integer"
+        format: "int64"
+    example:
+      totalResultsCount: 2
+      pageNumber: 0
+      data:
+      - endDate: 6
+        description: "description"
+        creationDate: 0
+        version: "version"
+        executedPhases:
+        - executedPhases:
+          - percentCompleted: 7.0614014
+            executionId: "executionId"
+            endDate: 1
+            phaseId: 9
+            id: 2
+            startDate: 3
+            executedManifestTokenValues:
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            status: "DESIGN"
+          - percentCompleted: 7.0614014
+            executionId: "executionId"
+            endDate: 1
+            phaseId: 9
+            id: 2
+            startDate: 3
+            executedManifestTokenValues:
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            status: "DESIGN"
+          deleted: true
+          name: "name"
+          id: 2
+        - executedPhases:
+          - percentCompleted: 7.0614014
+            executionId: "executionId"
+            endDate: 1
+            phaseId: 9
+            id: 2
+            startDate: 3
+            executedManifestTokenValues:
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            status: "DESIGN"
+          - percentCompleted: 7.0614014
+            executionId: "executionId"
+            endDate: 1
+            phaseId: 9
+            id: 2
+            startDate: 3
+            executedManifestTokenValues:
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            status: "DESIGN"
+          deleted: true
+          name: "name"
+          id: 2
+        statusDescription: "statusDescription"
+        statusReason: "SUCCESS"
+        statusReasonDescription: "statusReasonDescription"
+        name: "name"
+        productionPhaseId: 7
+        id: 4
+        startDate: 1
+        status: "DESIGN"
+      - endDate: 6
+        description: "description"
+        creationDate: 0
+        version: "version"
+        executedPhases:
+        - executedPhases:
+          - percentCompleted: 7.0614014
+            executionId: "executionId"
+            endDate: 1
+            phaseId: 9
+            id: 2
+            startDate: 3
+            executedManifestTokenValues:
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            status: "DESIGN"
+          - percentCompleted: 7.0614014
+            executionId: "executionId"
+            endDate: 1
+            phaseId: 9
+            id: 2
+            startDate: 3
+            executedManifestTokenValues:
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            status: "DESIGN"
+          deleted: true
+          name: "name"
+          id: 2
+        - executedPhases:
+          - percentCompleted: 7.0614014
+            executionId: "executionId"
+            endDate: 1
+            phaseId: 9
+            id: 2
+            startDate: 3
+            executedManifestTokenValues:
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            status: "DESIGN"
+          - percentCompleted: 7.0614014
+            executionId: "executionId"
+            endDate: 1
+            phaseId: 9
+            id: 2
+            startDate: 3
+            executedManifestTokenValues:
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            - tokeId: 5
+              tokenName: "tokenName"
+              id: 5
+              tokenValue: "tokenValue"
+            status: "DESIGN"
+          deleted: true
+          name: "name"
+          id: 2
+        statusDescription: "statusDescription"
+        statusReason: "SUCCESS"
+        statusReasonDescription: "statusReasonDescription"
+        name: "name"
+        productionPhaseId: 7
+        id: 4
+        startDate: 1
+        status: "DESIGN"
+      pageSize: 6
+      statusReasonCounters:
+        failureEnvironment: 5
+        failureGeneral: 2
+        notInUse: 9
+        failureFunctional: 5
+        success: 3
+        failureDeployment: 1
+        failurePerformance: 7
+  NamedIdentifiableDto:
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+    example:
+      name: "name"
+      id: 0
+  ListHolderDto«DashboardPageDto»:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/DashboardPageDto"
+    example:
+      data:
+      - name: "name"
+        layoutType: "layoutType"
+        id: 0
+        content: "content"
+      - name: "name"
+        layoutType: "layoutType"
+        id: 0
+        content: "content"
+  ListHolderDto«PhaseExecutionsReportDto»:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/PhaseExecutionsReportDto"
+    example:
+      data:
+      - executedPhases:
+        - percentCompleted: 7.0614014
+          executionId: "executionId"
+          endDate: 1
+          phaseId: 9
+          id: 2
+          startDate: 3
+          executedManifestTokenValues:
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          status: "DESIGN"
+        - percentCompleted: 7.0614014
+          executionId: "executionId"
+          endDate: 1
+          phaseId: 9
+          id: 2
+          startDate: 3
+          executedManifestTokenValues:
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          status: "DESIGN"
+        deleted: true
+        name: "name"
+        id: 2
+      - executedPhases:
+        - percentCompleted: 7.0614014
+          executionId: "executionId"
+          endDate: 1
+          phaseId: 9
+          id: 2
+          startDate: 3
+          executedManifestTokenValues:
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          status: "DESIGN"
+        - percentCompleted: 7.0614014
+          executionId: "executionId"
+          endDate: 1
+          phaseId: 9
+          id: 2
+          startDate: 3
+          executedManifestTokenValues:
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          - tokeId: 5
+            tokenName: "tokenName"
+            id: 5
+            tokenValue: "tokenValue"
+          status: "DESIGN"
+        deleted: true
+        name: "name"
+        id: 2
+  ListHolderDto«ContentItemReportDto»:
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/ContentItemReportDto"
+    example:
+      data:
+      - contentItemDisplayId: "contentItemDisplayId"
+        contentItemId: 0
+        environmentVersions:
+        - applicationVersion:
+            name: "name"
+            id: 0
+          phase:
+            name: "name"
+            id: 0
+          environment:
+            name: "name"
+            id: 0
+          task:
+            name: "name"
+            id: 0
+          application:
+            name: "name"
+            id: 0
+          release:
+            name: "name"
+            id: 0
+          promotionDate: 6
+          commitId: "commitId"
+          externalStatus: "externalStatus"
+          buildNumber: "buildNumber"
+          status: "FAILED"
+        - applicationVersion:
+            name: "name"
+            id: 0
+          phase:
+            name: "name"
+            id: 0
+          environment:
+            name: "name"
+            id: 0
+          task:
+            name: "name"
+            id: 0
+          application:
+            name: "name"
+            id: 0
+          release:
+            name: "name"
+            id: 0
+          promotionDate: 6
+          commitId: "commitId"
+          externalStatus: "externalStatus"
+          buildNumber: "buildNumber"
+          status: "FAILED"
+        contentItemType: "contentItemType"
+        contentItemName: "contentItemName"
+        release:
+          name: "name"
+          id: 0
+        applicationName: "applicationName"
+      - contentItemDisplayId: "contentItemDisplayId"
+        contentItemId: 0
+        environmentVersions:
+        - applicationVersion:
+            name: "name"
+            id: 0
+          phase:
+            name: "name"
+            id: 0
+          environment:
+            name: "name"
+            id: 0
+          task:
+            name: "name"
+            id: 0
+          application:
+            name: "name"
+            id: 0
+          release:
+            name: "name"
+            id: 0
+          promotionDate: 6
+          commitId: "commitId"
+          externalStatus: "externalStatus"
+          buildNumber: "buildNumber"
+          status: "FAILED"
+        - applicationVersion:
+            name: "name"
+            id: 0
+          phase:
+            name: "name"
+            id: 0
+          environment:
+            name: "name"
+            id: 0
+          task:
+            name: "name"
+            id: 0
+          application:
+            name: "name"
+            id: 0
+          release:
+            name: "name"
+            id: 0
+          promotionDate: 6
+          commitId: "commitId"
+          externalStatus: "externalStatus"
+          buildNumber: "buildNumber"
+          status: "FAILED"
+        contentItemType: "contentItemType"
+        contentItemName: "contentItemName"
+        release:
+          name: "name"
+          id: 0
+        applicationName: "applicationName"

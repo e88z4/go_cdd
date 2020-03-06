@@ -9,4 +9,5 @@ require (
 	github.com/go-openapi/strfmt v0.19.4
 	github.com/go-openapi/swag v0.19.7
 	github.com/go-openapi/validate v0.19.6
+	github.com/rogpeppe/godef v1.1.1 // indirect
 )

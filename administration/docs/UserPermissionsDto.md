@@ -1,0 +1,51 @@
+# UserPermissionsDto
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**Application** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**ApplicationSourceManagement** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**Cds** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**ChangePassword** | [***ChangePasswordDto**](ChangePasswordDto.md) |  | [optional] [default to null]
+**Cta** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**Dashboard** | [***DashboardPermissionsDto**](DashboardPermissionsDto.md) |  | [optional] [default to null]
+**Database** | [***DatabaseDto**](DatabaseDto.md) |  | [optional] [default to null]
+**DomainVerification** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**DslManifests** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**EmailTemplatesManagement** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**EnvironmentManagement** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**EnvironmentToken** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**FileSources** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**HelpAbout** | [***HelpAboutDto**](HelpAboutDto.md) |  | [optional] [default to null]
+**MaintenanceWindow** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**ManageEndpoint** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**ManageFreezePeriod** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**Microservices** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**NavigationGuidance** | [***NavigationGuidanceDto**](NavigationGuidanceDto.md) |  | [optional] [default to null]
+**PaymentPlan** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**Plugin** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**Pop** | [***PopPermissionDto**](POPPermissionDto.md) |  | [optional] [default to null]
+**PortfolioLicensing** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**ProjectManagement** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**ProjectPartyManagement** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**RedirectToLandingPage** | [***RedirectToLandingPageDto**](RedirectToLandingPageDto.md) |  | [optional] [default to null]
+**Release** | [***ReleasePermissionsDto**](ReleasePermissionsDto.md) |  | [optional] [default to null]
+**ReleaseScore** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**ReleaseTokenTemplate** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**ResetPassword** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**Role** | [***CrudPermissionsDto**](CRUDPermissionsDto.md) |  | [optional] [default to null]
+**Saml** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**SendCustomerFeedback** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**SendInvitation** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**Smtp** | [***SmtpDto**](SmtpDto.md) |  | [optional] [default to null]
+**SwitchTenantPage** | [***SwitchTenantPageDto**](SwitchTenantPageDto.md) |  | [optional] [default to null]
+**Tar** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**TenantManagement** | [***EnablementDto**](EnablementDto.md) |  | [optional] [default to null]
+**TenantMarketingInformation** | [***TenantMarketingInformationDto**](TenantMarketingInformationDto.md) |  | [optional] [default to null]
+**Track** | [***TrackPermissionsDto**](TrackPermissionsDto.md) |  | [optional] [default to null]
+**UserManagement** | [***UserManagementDto**](UserManagementDto.md) |  | [optional] [default to null]
+**UserManagementSystem** | [***UserManagementSystemDto**](UserManagementSystemDto.md) |  | [optional] [default to null]
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
